@@ -9,11 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import timber.log.Timber;
-
 public class MaterialScreenTransition implements ScreenTransition {
 	private Map<Integer, Integer> transitioningViews;
-	private List<ViewTransition> transitions;
 	private final int duration = 200;
 
 	/**
@@ -22,17 +19,19 @@ public class MaterialScreenTransition implements ScreenTransition {
 	 */
 	public MaterialScreenTransition(HashMap<Integer, Integer> transitioningViews) {
 		this.transitioningViews = transitioningViews;
-		transitions = new ArrayList<>();
 	}
 
 	@Override
 	public void enter(Screen screenFrom, Screen screenTo, final Runnable complete) {
-		createTransitions(screenFrom, screenTo);
-
 		List<Animator> viewAnimations = new ArrayList<>();
 
-		for (ViewTransition transition : transitions) {
-			viewAnimations.addAll(transition.getEnterAnimation());
+		//fetch enter animations and set initial values (views from the new screen get set to the positions equal to the old one, the animate back to their original positions)
+		for (Map.Entry<Integer, Integer> entry : transitioningViews.entrySet()) {
+			View from = screenFrom.getView().findViewById(entry.getKey());
+			View to = screenTo.getView().findViewById(entry.getValue());
+
+			ViewTransition.prepareAnimation(from, to); //prepares the views for animation (sets to initial position)
+			viewAnimations.addAll(ViewTransition.getEnterAnimation(to));
 		}
 
 		AnimatorSet animatorSet = new AnimatorSet();
@@ -51,8 +50,10 @@ public class MaterialScreenTransition implements ScreenTransition {
 	public void exit(Screen screenFrom, Screen screenTo, final Runnable complete) {
 		List<Animator> viewAnimations = new ArrayList<>();
 
-		for (ViewTransition transition : transitions) {
-			viewAnimations.addAll(transition.getExitAnimation());
+		//fetch the exit animations (views from the old screen (screenFrom) animate back to the old position before getting replaced)
+		for (Integer viewId : transitioningViews.values()) {
+			View view = screenFrom.getView().findViewById(viewId);
+			viewAnimations.addAll(ViewTransition.getExitAnimation(view));
 		}
 
 		AnimatorSet animatorSet = new AnimatorSet();
@@ -65,16 +66,5 @@ public class MaterialScreenTransition implements ScreenTransition {
 			}
 		});
 		animatorSet.start();
-	}
-
-	private void createTransitions(Screen screenFrom, Screen screenTo) {
-		if (!transitions.isEmpty())
-			return;
-
-		for (Map.Entry<Integer, Integer> entry : transitioningViews.entrySet()) {
-			View from = screenFrom.getView().findViewById(entry.getKey());
-			View to = screenTo.getView().findViewById(entry.getValue());
-			transitions.add(new ViewTransition(from, to));
-		}
 	}
 }

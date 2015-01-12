@@ -13,15 +13,18 @@ public class ScaleFromViewTransition implements ScreenTransition {
 	private int topDelta;
 	private float widthScale;
 	private float heightScale;
-	private View view;
+	private int viewId;
 
-	public ScaleFromViewTransition(View v) {
-		this.view = v;
+	//todo: make sure you don't leak the view here (which does not happen here, because view is set to null after it is used, how to fix generic?)
+	//todo: fixed by replacing View variable, by viewId (int), how to avoid this from happening to anyone creating a transition?
+
+	public ScaleFromViewTransition(int viewId) {
+		this.viewId = viewId;
 	}
 
 	@Override
 	public void enter(Screen screenFrom, final Screen screenTo, final Runnable complete) {
-		View thumbnail = view;
+		View thumbnail = screenFrom.getView().findViewById(viewId);
 
 		final int[] thumbnailLocation = new int[2];
 		thumbnail.getLocationOnScreen(thumbnailLocation);
@@ -44,9 +47,6 @@ public class ScaleFromViewTransition implements ScreenTransition {
 		screenTo.getView().setTranslationY(topDelta);
 		screenTo.getView().setScaleX(widthScale);
 		screenTo.getView().setScaleY(heightScale);
-
-		view = null;
-		thumbnail = null;
 
 		screenTo.getView().animate().translationX(0).translationY(0).scaleX(1).scaleY(1).setDuration(duration).setInterpolator(new DecelerateInterpolator(1.5f)).withEndAction(complete);
 	}

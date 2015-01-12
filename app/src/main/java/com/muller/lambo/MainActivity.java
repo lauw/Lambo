@@ -12,12 +12,10 @@ import timber.log.Timber;
 
 public class MainActivity extends ActionBarActivity {
 
-	boolean test;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Timber.plant(new Timber.DebugTree()); //todo: Timber debug enabled
+		Timber.plant(new Timber.DebugTree()); //todo: remove Timber throughout
 
 		setContentView(R.layout.activity_main);
 		Lambo.get().show(new TestScreen(), null);

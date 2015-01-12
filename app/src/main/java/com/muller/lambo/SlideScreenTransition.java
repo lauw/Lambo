@@ -17,7 +17,7 @@ public class SlideScreenTransition implements ScreenTransition {
 
 		AnimatorSet animatorSet = new AnimatorSet();
 
-		animatorSet.playTogether(ObjectAnimator.ofFloat(screenFrom.getView(), "translateX", width), ObjectAnimator.ofFloat(screenTo.getView(), "translateX", 0));
+		animatorSet.playTogether(ObjectAnimator.ofFloat(screenFrom.getView(), "translationX", width), ObjectAnimator.ofFloat(screenTo.getView(), "translationX", 0));
 
 		animatorSet.addListener(new AnimatorListener() {
 			@Override
@@ -37,7 +37,7 @@ public class SlideScreenTransition implements ScreenTransition {
 
 		AnimatorSet animatorSet = new AnimatorSet();
 
-		animatorSet.playTogether(ObjectAnimator.ofFloat(screenFrom.getView(), "translateX", -width), ObjectAnimator.ofFloat(screenTo.getView(), "translateX", 0));
+		animatorSet.playTogether(ObjectAnimator.ofFloat(screenFrom.getView(), "translationX", -width), ObjectAnimator.ofFloat(screenTo.getView(), "translationX", 0));
 
 		animatorSet.addListener(new AnimatorListener() {
 			@Override

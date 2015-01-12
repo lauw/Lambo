@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class TestScreen extends Screen {
 
 	@Override
-	public void created() {
+	public void onCreate() {
 		getView().findViewById(R.id.firstTry).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -19,7 +19,7 @@ public class TestScreen extends Screen {
 		getView().findViewById(R.id.secondTry).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Lambo.get().show(new TestScreen(), new ScaleFromViewTransition(v));
+				Lambo.get().show(new TestScreen(), new ScaleFromViewTransition(v.getId()));
 			}
 		});
 
@@ -38,7 +38,17 @@ public class TestScreen extends Screen {
 	}
 
 	@Override
-	public void entered() {
+	public void onDestroy() {
+
+	}
+
+	@Override
+	public void onShow() {
+
+	}
+
+	@Override
+	public void onHide() {
 
 	}
 }

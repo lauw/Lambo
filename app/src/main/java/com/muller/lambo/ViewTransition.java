@@ -1,38 +1,29 @@
 package com.muller.lambo;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewTransition {
-	private int leftDelta;
-	private int topDelta;
-	private float widthScale;
-	private float heightScale;
+	private ViewTransition() {}
 
-	private View to;
-
-	public ViewTransition(View from, View to) {
-		this.to = to;
-		// Figure out where the thumbnail and full size versions are, relative
-		// to the screen and each other
+	public static void prepareAnimation(View from, View to) {
+		// Figure out where the views are located, relative to the screen and each other
 		final int[] oldLocation = new int[2];
 		from.getLocationOnScreen(oldLocation);
 
 		int[] newLocation = new int[2];
 		to.getLocationOnScreen(newLocation);
 
-		leftDelta = oldLocation[0] - newLocation[0];
-		topDelta = oldLocation[1] - newLocation[1];
+		int leftDelta = oldLocation[0] - newLocation[0];
+		int topDelta = oldLocation[1] - newLocation[1];
 
-		// Scale factors to make the large version the same size as the thumbnail
-		widthScale = (float)from.getWidth() / to.getWidth();
-		heightScale = (float)from.getHeight() / to.getHeight();
+		// Scale factors to make the new view the same size as the old view
+		float widthScale = (float)from.getWidth() / to.getWidth();
+		float heightScale = (float)from.getHeight() / to.getHeight();
 
 		to.setPivotX(0);
 		to.setPivotY(0);
@@ -40,26 +31,36 @@ public class ViewTransition {
 		to.setTranslationY(topDelta);
 		to.setScaleX(widthScale);
 		to.setScaleY(heightScale);
+
+		to.setTag(R.id.VIEW_TRANSITION_DATA, new ViewTransitionData(leftDelta, topDelta, widthScale, heightScale));
 	}
 
-	public List<Animator> getEnterAnimation() {
+	public static List<Animator> getEnterAnimation(View view) {
+		if (view.getTag(R.id.VIEW_TRANSITION_DATA) == null)
+			throw new RuntimeException("View is not prepared for animation. Call prepareAnimation(view, view) first."); //runTimeException does not require catching
+
 		List<Animator> animations = new ArrayList<>();
 
-		animations.add(ObjectAnimator.ofFloat(to, "translationX", 0));
-		animations.add(ObjectAnimator.ofFloat(to, "translationY", 0));
-		animations.add(ObjectAnimator.ofFloat(to, "scaleX", 1));
-		animations.add(ObjectAnimator.ofFloat(to, "scaleY", 1));
+		animations.add(ObjectAnimator.ofFloat(view, "translationX", 0));
+		animations.add(ObjectAnimator.ofFloat(view, "translationY", 0));
+		animations.add(ObjectAnimator.ofFloat(view, "scaleX", 1));
+		animations.add(ObjectAnimator.ofFloat(view, "scaleY", 1));
 
 		return animations;
 	}
 
-	public List<Animator> getExitAnimation() {
+	public static List<Animator> getExitAnimation(View view) {
+		if (view.getTag(R.id.VIEW_TRANSITION_DATA) == null)
+			throw new RuntimeException("View is not prepared for animation. Call prepareAnimation(view, view) first."); //runTimeException does not require catching
+
+		ViewTransitionData oldState = (ViewTransitionData)view.getTag(R.id.VIEW_TRANSITION_DATA);
+
 		List<Animator> animations = new ArrayList<>();
 
-		animations.add(ObjectAnimator.ofFloat(to, "translationX", leftDelta));
-		animations.add(ObjectAnimator.ofFloat(to, "translationY", topDelta));
-		animations.add(ObjectAnimator.ofFloat(to, "scaleX", widthScale));
-		animations.add(ObjectAnimator.ofFloat(to, "scaleY", heightScale));
+		animations.add(ObjectAnimator.ofFloat(view, "translationX", oldState.getLeftDelta()));
+		animations.add(ObjectAnimator.ofFloat(view, "translationY", oldState.getTopDelta()));
+		animations.add(ObjectAnimator.ofFloat(view, "scaleX", oldState.getWidthScale()));
+		animations.add(ObjectAnimator.ofFloat(view, "scaleY", oldState.getHeightScale()));
 
 		return animations;
 	}
