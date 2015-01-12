@@ -21,6 +21,8 @@ public class MaterialScreenTransition implements ScreenTransition {
 		this.transitioningViews = transitioningViews;
 	}
 
+	//todo: make this nicer
+
 	@Override
 	public void enter(Screen screenFrom, Screen screenTo, final Runnable complete) {
 		List<Animator> viewAnimations = new ArrayList<>();
