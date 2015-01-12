@@ -1,8 +1,5 @@
 package com.muller.lambo;
 
-import android.animation.Animator;
-import android.view.View;
-
 public class ScaleViewTransition implements ScreenTransition {
 	int duration = 200;
 

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 
 public abstract class Screen {
 	/** Using a SoftReference instead of a weak one

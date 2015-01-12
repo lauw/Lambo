@@ -1,10 +1,7 @@
 package com.muller.lambo;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.view.View;
-import android.view.ViewGroup;
 
 public class SlideScreenTransition implements ScreenTransition {
 	int duration = 500;
