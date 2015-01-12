@@ -1,12 +1,12 @@
 package com.muller.lambo;
 
-public class ViewTransitionData {
+public class HeroTransitionData {
 	private int leftDelta;
 	private int topDelta;
 	private float widthScale;
 	private float heightScale;
 
-	public ViewTransitionData(int leftDelta, int topDelta, float widthScale, float heightScale) {
+	public HeroTransitionData(int leftDelta, int topDelta, float widthScale, float heightScale) {
 		this.leftDelta = leftDelta;
 		this.topDelta = topDelta;
 		this.widthScale = widthScale;

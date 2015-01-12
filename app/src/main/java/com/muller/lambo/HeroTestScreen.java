@@ -5,7 +5,7 @@ import android.view.View;
 import java.util.HashMap;
 
 @Layout(R.layout.test_material)
-public class MaterialTestScreen extends Screen {
+public class HeroTestScreen extends Screen {
 
 	@Override
 	public void onCreate() {
@@ -31,7 +31,7 @@ public class MaterialTestScreen extends Screen {
 				views.put(R.id.material_firstTry, R.id.firstTry);
 				views.put(R.id.material_secondTry, R.id.secondTry);
 				views.put(R.id.material_thirdTry, R.id.thirdTry);
-				Lambo.get().show(new TestScreen(), new MaterialScreenTransition(views));
+				Lambo.get().show(new TestScreen(), new HeroScreenTransition(views));
 			}
 		});
 	}

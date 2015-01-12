@@ -16,10 +16,10 @@ public class ScaleFromViewTransition implements ScreenTransition {
 
 	@Override
 	public void enter(Screen screenFrom, final Screen screenTo, final Runnable complete) {
-		ViewTransition.prepareAnimation(screenFrom.getView().findViewById(viewId), screenTo.getView());
+		HeroTransition.prepareAnimation(screenFrom.getView().findViewById(viewId), screenTo.getView());
 
 		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(ViewTransition.getEnterAnimation(screenTo.getView()));
+		animatorSet.playTogether(HeroTransition.getEnterAnimation(screenTo.getView()));
 		animatorSet.setDuration(duration);
 		animatorSet.addListener(new AnimatorListener() {
 			@Override
@@ -33,7 +33,7 @@ public class ScaleFromViewTransition implements ScreenTransition {
 	@Override
 	public void exit(Screen screenFrom, Screen screenTo, final Runnable complete) {
 		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(ViewTransition.getExitAnimation(screenFrom.getView()));
+		animatorSet.playTogether(HeroTransition.getExitAnimation(screenFrom.getView()));
 		animatorSet.setDuration(duration);
 		animatorSet.addListener(new AnimatorListener() {
 			@Override

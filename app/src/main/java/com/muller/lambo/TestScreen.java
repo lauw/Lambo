@@ -32,7 +32,7 @@ public class TestScreen extends Screen {
 				views.put(R.id.secondTry, R.id.material_secondTry);
 				views.put(R.id.thirdTry, R.id.material_thirdTry);
 
-				Lambo.get().show(new MaterialTestScreen(), new MaterialScreenTransition(views));
+				Lambo.get().show(new HeroTestScreen(), new HeroScreenTransition(views));
 			}
 		});
 	}

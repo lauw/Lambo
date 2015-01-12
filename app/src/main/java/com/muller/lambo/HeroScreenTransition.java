@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MaterialScreenTransition implements ScreenTransition {
+public class HeroScreenTransition implements ScreenTransition {
 	private Map<Integer, Integer> transitioningViews;
 	private final int duration = 200;
 
@@ -17,7 +17,7 @@ public class MaterialScreenTransition implements ScreenTransition {
 	 * @param transitioningViews first integer represents the id of the view in the old screen (ex: R.id.screen1_image)
 	 *                           second integer represents the id of the view in the new screen (ex: R.id.screen2_image)
 	 */
-	public MaterialScreenTransition(HashMap<Integer, Integer> transitioningViews) {
+	public HeroScreenTransition(HashMap<Integer, Integer> transitioningViews) {
 		this.transitioningViews = transitioningViews;
 	}
 
@@ -32,8 +32,8 @@ public class MaterialScreenTransition implements ScreenTransition {
 			View from = screenFrom.getView().findViewById(entry.getKey());
 			View to = screenTo.getView().findViewById(entry.getValue());
 
-			ViewTransition.prepareAnimation(from, to); //prepares the views for animation (sets to initial position)
-			viewAnimations.addAll(ViewTransition.getEnterAnimation(to));
+			HeroTransition.prepareAnimation(from, to); //prepares the views for animation (sets to initial position)
+			viewAnimations.addAll(HeroTransition.getEnterAnimation(to));
 		}
 
 		AnimatorSet animatorSet = new AnimatorSet();
@@ -55,7 +55,7 @@ public class MaterialScreenTransition implements ScreenTransition {
 		//fetch the exit animations (views from the old screen (screenFrom) animate back to the old position before getting replaced)
 		for (Integer viewId : transitioningViews.values()) {
 			View view = screenFrom.getView().findViewById(viewId);
-			viewAnimations.addAll(ViewTransition.getExitAnimation(view));
+			viewAnimations.addAll(HeroTransition.getExitAnimation(view));
 		}
 
 		AnimatorSet animatorSet = new AnimatorSet();

@@ -7,8 +7,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewTransition {
-	private ViewTransition() {}
+public class HeroTransition {
+	private HeroTransition() {}
 
 	public static void prepareAnimation(View from, View to) {
 		// Figure out where the views are located, relative to the screen and each other
@@ -32,7 +32,7 @@ public class ViewTransition {
 		to.setScaleX(widthScale);
 		to.setScaleY(heightScale);
 
-		to.setTag(R.id.VIEW_TRANSITION_DATA, new ViewTransitionData(leftDelta, topDelta, widthScale, heightScale));
+		to.setTag(R.id.VIEW_TRANSITION_DATA, new HeroTransitionData(leftDelta, topDelta, widthScale, heightScale));
 	}
 
 	public static List<Animator> getEnterAnimation(View view) {
@@ -53,7 +53,7 @@ public class ViewTransition {
 		if (view.getTag(R.id.VIEW_TRANSITION_DATA) == null)
 			throw new RuntimeException("View is not prepared for animation. Call prepareAnimation(view, view) first."); //runTimeException does not require catching
 
-		ViewTransitionData oldState = (ViewTransitionData)view.getTag(R.id.VIEW_TRANSITION_DATA);
+		HeroTransitionData oldState = (HeroTransitionData)view.getTag(R.id.VIEW_TRANSITION_DATA);
 
 		List<Animator> animations = new ArrayList<>();
 
